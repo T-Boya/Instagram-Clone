@@ -1,6 +1,6 @@
 /* PAGE SIZING */
 body {
-    background: url('{% static "/IMG/bg6.jpg" %}');
+    /* background: url('{% static "/IMG/bg6.jpg" %}'); */
     background-repeat: no-repeat;
     background-size: 100%;
     background-repeat:no-repeat;
