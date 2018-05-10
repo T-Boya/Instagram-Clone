@@ -10,11 +10,11 @@ def register(request):
     registered = False
 
     if request.method == 'POST':
-        user_form = UserForm(data=request.post)
-        profile_form = UserProfileForm(data=request.post)
+        user_form = UserForm(data = request.POST)
+        profile_form = UserProfileForm(data = request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save
+            user = user_form.save()
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
@@ -32,4 +32,4 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'Instagram/register.html')
+    return render(request, 'Instagram/register.html', {'user_form': user_form, 'profile_form': profile_form,'registered': registered})
