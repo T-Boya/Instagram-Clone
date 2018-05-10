@@ -1,0 +1,53 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block title %}
+        <title>THEWebsite</title>
+        {% endblock %}
+        {% block css_main %}
+        <link rel="stylesheet" type="text/css" href="{% static 'CSS/base.css' %}">
+        {% endblock %}
+        {% block stylesheet %}
+        {% endblock %}
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style type"text/css">
+        body {
+            background: url('{% static "/IMG/bg6.jpg" %}');
+        }
+        </style>
+    </head>
+    <body>
+    {% block navbar %}
+    <!-- NAVBAR BEGINS -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                        <a class="navbar-brand"><img src=
+                            "https://fontmeme.com/permalink/180209/0124fa6671b8124cbd4c25c19588b81e.png" 
+                                alt="calligraphy-fonts" border="0"></a>
+                  </div>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="add_tag"><a href="{% url 'add_tag' %}">Add Tag</a></li>
+                    <li class="about"><a href="{% url 'about' %}"> About </a></li>
+                    <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Tags<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% for tag in tags %}
+                                <li>
+                                    <a href = "/tag/{{ tag.slug }}"><p>{{ tag.name }}</p></a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                          </li>
+                  </ul>
+                </div>
+              </nav>
+    <!-- NAVBAR ENDS -->
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    </body>
+</html>
