@@ -29,7 +29,7 @@ def register(request):
             print(user_form.errors, profile_form.errors)
 
     else:
-    user_form = UserForm()
-    profile_form = UserProfileForm()
+        user_form = UserForm()
+        profile_form = UserProfileForm()
 
     return render(request, 'Instagram/register.html')
