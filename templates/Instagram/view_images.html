@@ -6,7 +6,10 @@
     </head>
     <body>
         {% for photo in photos %}
+                <!-- <a href="{% url 'details' id=photo.id %}"><h1>{{ photo.title }}</h1></a> -->
+                <a href="{{ photo.get_absolute_url }}"><h1>{{ photo.title }}</h1></a>
                 <img src="{{ photo.image.url }}">
+                <p>{{ photo.description }}</p>
               {% endfor %}
     </body>
 </html>

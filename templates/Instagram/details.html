@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>grrg</title>
+    </head>
+    <body>
+        <h1>{{ photo.title }}</h1>
+        <img src="{{ photo.image.url }}">
+        <p>{{ photo.description }}</p>
+        <a href = "{%url  'delete' photo.id %}"><p>Delete</p></a>
+    </body>
+</html>

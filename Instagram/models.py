@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -10,4 +11,21 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Photo(models.Model):
-     image = models.ImageField(upload_to='uploaded_images', blank=True)
+    image = models.ImageField(upload_to='uploaded_images', blank=True)
+    title = models.CharField(max_length=128)
+    profile = models.ForeignKey(UserProfile)
+    likes = models.IntegerField(default=0)
+    description = models.CharField(max_length=1000, blank=True)
+
+    def delete_photo(self):
+        self.delete()
+    
+    def delete_url(self,photo_id):
+        return reverse("delete", kwargs={"id" : photo_id})
+
+    def get_absolute_url(self):
+        return reverse("details", kwargs={"id" : self.id})
+
+class Comment(models.Model):
+    photo = models.ForeignKey(Photo)
+    text = models.CharField(max_length=1000)

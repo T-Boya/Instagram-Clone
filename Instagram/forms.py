@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from Instagram.models import UserProfile, Photo
+from Instagram.models import UserProfile, Photo, Comment
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -17,10 +17,14 @@ class UserProfileForm(forms.ModelForm):
 
 class PhotoForm(forms.ModelForm):
     image = forms.FileField(label='Select an image file', help_text='Please select a photo to upload')
+    title = forms.CharField(max_length=128, help_text="Please enter the title of the photo.")
+    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    description = forms.CharField(max_length=1000, help_text="Please enter the description of the photo.")
 
     class Meta:
         model = Photo
-        fields = ('image',)
+        fields = ('image', 'title', 'description',)
+        exclude = ('profile',)
     
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -30,3 +34,13 @@ class PhotoForm(forms.ModelForm):
             url = 'http://' + url
             cleaned_data['url'] = url
             return cleaned_data
+
+class CommentForm(forms.ModelForm):
+    comment = forms.CharField(max_length=1000, help_text="Please enter your comment")
+
+    class Meta:
+        model = Comment
+        fields = ('comment',)
+        exclude = ('photo',)
+        
+    

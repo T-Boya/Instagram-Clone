@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from Instagram.forms import UserForm, UserProfileForm, PhotoForm
 from Instagram.models import Photo, UserProfile
 
 def index(request):
-    return HttpResponse('Gaaaaaaaaaaay!')
+    return render(request, 'Instagram/index.html')
 
 def register(request):
 
@@ -89,3 +89,23 @@ def upload(request):
     else:
         print(form.errors)
     return render(request, 'Instagram/upload.html', context = {'form':form,})
+
+@login_required
+def details(request, id = None):
+    photo = get_object_or_404(Photo, id=id)
+
+    
+    return render(request, 'Instagram/details.html', context = {'photo' : photo,})
+
+def deleteImage(request,photo_id):
+    image = Photo.objects.filter(id=photo_id).first()
+    image.delete_photo()
+    
+    return redirect('index')
+
+@login_required
+def search(request, id=None):
+    User = get_object_or_404(UserProfile, id=id) #FIGURE OUT HOW TO INSERT SEARCH QUERY AFTER USER
+    return render(request, 'Instagram/search.html', context = {'instance':instance,})
+
+    
