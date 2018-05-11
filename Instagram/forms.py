@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from Instagram.models import UserProfile
+from django.forms import ModelForm
+from Instagram.models import UserProfile, Photo
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -13,3 +14,19 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('picture',)
+
+class PhotoForm(forms.ModelForm):
+    image = forms.FileField(label='Select an image file', help_text='Please select a photo to upload')
+
+    class Meta:
+        model = Photo
+        fields = ('image',)
+    
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        url = cleaned_data.get('url')
+
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            cleaned_data['url'] = url
+            return cleaned_data
