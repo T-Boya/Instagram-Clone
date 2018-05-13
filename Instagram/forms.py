@@ -35,6 +35,14 @@ class PhotoForm(forms.ModelForm):
             cleaned_data['url'] = url
             return cleaned_data
 
+class DetailUpdateForm(forms.ModelForm):
+    description = forms.CharField(max_length=1000, help_text="Please enter the description of the photo.")
+
+    class Meta:
+        model = Photo
+        fields = ('description',)
+        exclude = ('profile', 'image', 'title', )
+
 class CommentForm(forms.ModelForm):
     comment = forms.CharField(max_length=1000, help_text="Please enter your comment")
 

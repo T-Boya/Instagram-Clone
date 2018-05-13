@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>grrg</title>
+    </head>
+    <body>
+        <h1>{{ instance.title }}</h1>
+        <img src="{{ instance.image.url }}">
+        <p>{{ photo.description }}</p>
+        <form method="post" action="/update/{{ instance.id }}/">
+    
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Update Photo Details" />
+        </form>    
+
+    </body>
+</html>

@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^view/all/$', views.images, name='images'),
     url(r'^upload/$', views.upload, name='upload'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^update/(?P<id>\d+)/$', views.update, name='update'),
     url(r'^details/(?P<id>\d+)/$', views.details, name='details'),
 ]

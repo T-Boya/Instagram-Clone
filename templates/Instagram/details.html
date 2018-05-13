@@ -8,5 +8,6 @@
         <img src="{{ photo.image.url }}">
         <p>{{ photo.description }}</p>
         <a href = "{%url  'delete' photo.id %}"><p>Delete</p></a>
+        <a href = "{%url  'update' photo.id %}"><p>Update</p></a>
     </body>
 </html>

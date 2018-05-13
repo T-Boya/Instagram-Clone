@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from Instagram.forms import UserForm, UserProfileForm, PhotoForm
+from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm
 from Instagram.models import Photo, UserProfile
 
 def index(request):
@@ -93,19 +93,31 @@ def upload(request):
 @login_required
 def details(request, id = None):
     photo = get_object_or_404(Photo, id=id)
-
-    
     return render(request, 'Instagram/details.html', context = {'photo' : photo,})
 
-def deleteImage(request,photo_id):
+def deleteImage(request, photo_id):
     image = Photo.objects.filter(id=photo_id).first()
     image.delete_photo()
-    
-    return redirect('index')
+    return redirect('images')
 
 @login_required
 def search(request, id=None):
     User = get_object_or_404(UserProfile, id=id) #FIGURE OUT HOW TO INSERT SEARCH QUERY AFTER USER
     return render(request, 'Instagram/search.html', context = {'instance':instance,})
+
+@login_required
+def update(request, photo_id):
+    update_photo(self)
+    image = Photo.objects.filter(id=photo_id).first()
+    image.update_photo(description = description)
+    # instance = get_object_or_404(Photo, id=id)
+    # form = DetailUpdateForm(instance=instance)
+    # if form.is_valid():
+    #     # description = request.POST.get('description')
+    #     form.save()
+    #     return HttpResponseRedirect(reverse('images'))
+    # else:
+    #     print(form.errors)
+    return render(request, 'Instagram/update.html', context = {'instance' : instance, 'form':form,})
 
     
