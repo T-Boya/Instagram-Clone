@@ -9,6 +9,12 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+        help_texts = {'username': None,}
+        widgets = {'username': forms.TextInput(attrs={'placeholder': 'Username', 'class' : 'input'}),
+        'password': forms.TextInput(attrs={'placeholder': 'Password', 'class' : 'input'}),
+        'email': forms.TextInput(attrs={'placeholder': 'Email', 'class' : 'input',}),
+
+        }
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

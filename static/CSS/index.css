@@ -1,0 +1,70 @@
+body {
+    padding: 30px;
+    background-color: #FAFAFA;
+}
+.container {
+    margin-right: 19%;
+    float: right;
+    width: 27.5vw;
+    height: 85vh;
+    border: 1px solid #E6E6E6;
+    background-color: white;
+}
+.login {
+    margin-right: 19%;
+    margin-top: -20vh;
+    text-align: center;
+    float: right;
+    width: 27.5vw;
+    height: 15vh;
+    border: 1px solid #E6E6E6;
+    background-color: white;
+}
+.heading {
+    text-align: center;
+    color: rgb(192, 190, 190);
+    font-weight: 600;
+    line-height: 20px;
+    font-size: 19px;
+    margin: 0px 40px 10px;
+}
+.form {
+    /* margin-left: 15%; */
+    margin-top: 10%;
+    text-align: center;
+}
+input[type=text] {
+    padding: 5px; 
+    border: 1px solid #E6E6E6; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    width: 80%
+}
+
+input[type=text]:focus {
+    border-color:#333;
+    width: 80%
+}
+
+input[type=submit] {
+    width: 80%;
+    background-color: #2E99E9;
+    height: 30px;
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+}
+input {
+    width: 80%;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding:5px;
+}
+input[type='file'] {
+    color: transparent;
+    height: 30px;
+    text-align: center;
+  }
+label[type=text] {
+    display: none
+}

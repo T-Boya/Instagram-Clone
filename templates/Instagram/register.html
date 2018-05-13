@@ -1,25 +1,33 @@
 <!DOCTYPE html>
+
+{% load staticfiles %}
+
 <html>
     <head>
-        <title>blah</title>
+        <title>index</title>
+        <link rel="stylesheet" type="text/css" href="../../static/CSS/index.css">
     </head>
     <body>
-        <h1>About Page</h1>
-        {% if registered %}
-        <strong>thank you for registering!</strong>
-        <a href="{% url 'index' %}">Return to the homepage.</a><br />
-        {% else %}
-        <strong>register here!</strong><br />
-        <form id="user_form" method="post" action="{% url 'register' %}"
-        enctype="multipart/form-data"> 
-        {% csrf_token %}
+                <img src="../../static/images/bg1.png" alt="logo" style="margin-left: 15vw; margin-top: 10vh;">
         
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        
-
-        <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
+        <div class="container">
+            <img src="../../static/images/instagram.svg" alt="logo" style="width: 55%; margin-top: 30px; margin-left: 80px;">
+            <h2 class="heading">Sign up to see photos and videos from your friends.</h2>
+            <div class="form">
+                    <form id="user_form" method="post" action="{% url 'index' %}"
+                    enctype="multipart/form-data"> 
+                    {% csrf_token %}
+                    
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    
+            
+                    <input class = "button" type="submit" name="submit" value="Register" />
+                    </form>
+            </div>
+        </div>
+        <div class = "login">
+            <p>Have an account? <a href="{% url 'login' %}">Log in</a></p>
+        </div>
     </body>
 </html>

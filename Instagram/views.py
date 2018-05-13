@@ -7,10 +7,10 @@ from django.core.urlresolvers import reverse
 from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm
 from Instagram.models import Photo, UserProfile
 
-def index(request):
-    return render(request, 'Instagram/index.html')
+# def index(request):
+#     return render(request, 'Instagram/index.html')
 
-def register(request):
+def index(request):
 
     registered = False
 
@@ -29,6 +29,7 @@ def register(request):
                 profile.picture = request.FILES['picture']
             profile.save()
             registered = True
+            return HttpResponseRedirect(reverse('login'))
 
         else:
             print(user_form.errors, profile_form.errors)
@@ -49,7 +50,7 @@ def userlogin(request):
 
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('images'))
 
             else:
                 return HttpResponse("Your account is disabled.")

@@ -1,0 +1,57 @@
+body {
+    padding: 30px;
+    background-color: #FAFAFA;
+}
+.photos {
+    margin-top: 10vh;
+}
+.photo:after {
+    clear: both;
+    margin: 30px;
+}
+.containe1r {
+    margin-left: -10vw;
+    float: right;
+    width: 50vw;
+    height: 85vh;
+    border: 1px solid #E6E6E6;
+    background-color: white;
+}
+.heading {
+    text-align: center;
+    color: rgb(192, 190, 190);
+    font-weight: 600;
+    line-height: 20px;
+    font-size: 19px;
+    margin: 0px 40px 10px;
+}
+.navbar {
+    background-color: white;
+    height: 13vh;
+}
+.search {
+    margin-left: 20vw;
+    margin-top: 10px;
+}
+.inputbox {
+    width: 15vw;
+    text-align: center;
+}
+.underbox {
+    padding-left: 10px;
+    padding-top: 5px;
+    font-size: 20px;
+    height: 10vh;
+    background-color: white;
+    border: 1px solid #E6E6E6;
+    border-top: 0;
+}
+.comment {
+    width: 100%;
+    height: 10vh;
+    font-size: 3vh;
+    padding: 10px;
+}
+.header {
+    padding-left: 20px;
+}
