@@ -4,8 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm
-from Instagram.models import Photo, UserProfile
+from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm, CommentForm
+from Instagram.models import Photo, UserProfile, Comment
 
 # def index(request):
 #     return render(request, 'Instagram/index.html')
@@ -74,8 +74,24 @@ def user_logout(request):
 
 @login_required
 def images(request):
-        photos = Photo.objects.all()
-        return render(request, 'Instagram/view_images.html', context = {'photos' : photos,})
+    photos = Photo.objects.all()
+    # comments = Photo.comments.all()
+
+    # instance = get_object_or_404(Photo, id=id)
+    # form = CommentForm()
+    # if request.method == 'POST':
+    #     form = PhotoForm(request.POST)
+    #     if form.is_valid():
+    #         # photo = form.save(commit=False)
+    #         instance.comment.text = request.POST.get('comment')
+    #         instance.comment = form.save(commit=False)
+    #         instance.comment.author = request.user
+    #         instance.comment = comment.save()
+    #         return HttpResponseRedirect(reverse('images'))
+    # else:
+    #     print(form.errors)
+
+    return render(request, 'Instagram/view_images.html', context = {'photos' : photos,})
 
 @login_required
 def upload(request):
@@ -85,15 +101,18 @@ def upload(request):
         if form.is_valid():
             # photo = form.save(commit=False)
             photo = Photo(image = request.FILES['image'])
-            photo.save()
+            photo = form.save(commit=False)
+            photo.author = request.user
+            photo = photo.save()
             return HttpResponseRedirect(reverse('images'))
     else:
         print(form.errors)
     return render(request, 'Instagram/upload.html', context = {'form':form,})
 
 @login_required
-def details(request, id = None):
+def details(request, id = None, userid = None):
     photo = get_object_or_404(Photo, id=id)
+    user = get_object_or_404(Photo.author, userid=id)
     return render(request, 'Instagram/details.html', context = {'photo' : photo,})
 
 def deleteImage(request, photo_id):
@@ -121,4 +140,8 @@ def update(request, photo_id):
     #     print(form.errors)
     return render(request, 'Instagram/update.html', context = {'instance' : instance, 'form':form,})
 
-    
+@login_required
+def user(request, id = None):
+    return render(request, 'Instagram/user.html',)
+
+

@@ -30,7 +30,6 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ('image', 'title', 'description',)
-        exclude = ('profile',)
     
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -55,6 +54,5 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment',)
-        exclude = ('photo',)
         
     

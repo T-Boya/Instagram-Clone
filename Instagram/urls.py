@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^search/$', views.search, name='search'),
     url(r'^update/(?P<id>\d+)/$', views.update, name='update'),
     url(r'^details/(?P<id>\d+)/$', views.details, name='details'),
+    url(r'^user/(?P<userid>\d+)/$', views.user, name='user'),
 ]
