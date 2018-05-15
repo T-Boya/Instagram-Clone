@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm, CommentForm
 from Instagram.models import Photo, UserProfile, Comment
+from django.contrib.auth.models import User
 
 # def index(request):
 #     return render(request, 'Instagram/index.html')
@@ -110,9 +111,8 @@ def upload(request):
     return render(request, 'Instagram/upload.html', context = {'form':form,})
 
 @login_required
-def details(request, id = None, userid = None):
+def details(request, id = None):
     photo = get_object_or_404(Photo, id=id)
-    user = get_object_or_404(Photo.author, userid=id)
     return render(request, 'Instagram/details.html', context = {'photo' : photo,})
 
 def deleteImage(request, photo_id):
@@ -141,7 +141,11 @@ def update(request, photo_id):
     return render(request, 'Instagram/update.html', context = {'instance' : instance, 'form':form,})
 
 @login_required
-def user(request, id = None):
-    return render(request, 'Instagram/user.html',)
+def user(request, id=None):
+    User = get_object_or_404(UserProfile, id=id)
+    User_Photos = Photo.objects.filter(author_id=id)
+    # photos = User_Photos.photo_set.all()
+    photos = User_Photos.all()
+    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
 
 

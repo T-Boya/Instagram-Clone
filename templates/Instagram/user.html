@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>grrrehguib3wrguhijnwg</title>
+    </head>
+    <body>
+        <h1><p>{{user.username}}</p></h1>
+        <img src="{{ userprofile.picture.url }}">
+
+        <div class = "photos">
+            {% for photo in photos %}
+            <div class = "photo">
+            <div style="display:flex;justify-content:center;align-items:center;">
+                    <div>
+                            <div class="containe1r">
+                                    <a href="{{ photo.get_absolute_url }}"><h1 class="header">{{ photo.title }}</h1><p>{{ photo.author }}</p></a>
+                                    <img src="{{ photo.image.url }}" style="width: 100%;">
+                                    <div class="underbox"><p>{{ photo.likes }} Likes</p></div>
+                                    <input class="comment" placeholder="Add a comment...">
+                                    <!-- {% for comment in comments %}
+                                        {{ comment.text }}
+                                    {% endfor %} -->
+                                </div>
+                    </div>
+                  </div>
+            </div>
+                  {% endfor %}
+                </div>
+
+    </body>
+</html>

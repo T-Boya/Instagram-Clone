@@ -4,7 +4,7 @@
         <title>grrg</title>
     </head>
     <body>
-        <h1><a href="{%url  'user' user.id %}">{{ photo.title }}</a></h1>
+        <h1><a href="{% url 'user' photo.author.id %}">{{ photo.title }}</a></h1>
         <h2>{{ photo.author }}</h2>
         <img src="{{ photo.image.url }}">
         <p>{{ photo.description }}</p>

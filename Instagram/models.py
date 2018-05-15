@@ -8,9 +8,16 @@ class UserProfile(models.Model):
     picture = models.ImageField(upload_to='profile_pictures', blank=True)
     bio = models.CharField(max_length = 1000, blank = True)
     follows = models.ManyToManyField("self", related_name = 'follows')
+    
+    # instance = UserProfile.objects.get(id)
+    # photos = instance.photo_set.all()
 
     def __str__(self):
         return self.user.username
+
+    # def photos(self):
+    #     return self.objects.get(self).photo_set.all()
+
 
 class Comment(models.Model):
     text = models.CharField(max_length=1000, blank=True, default='nice!')
@@ -23,7 +30,7 @@ class Photo(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
     likes = models.IntegerField(default=0)
     description = models.CharField(max_length=1000, blank=True)
-    comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
+    comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
 
     def delete_photo(self):
         self.delete()
