@@ -43,5 +43,3 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse("details", kwargs={"id" : self.id})
-
-class Search(models.Model):
