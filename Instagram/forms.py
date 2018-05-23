@@ -56,6 +56,6 @@ class CommentForm(forms.ModelForm):
         fields = ('comment',)
 
 class SearchForm(forms.ModelForm):
-    query = forms.CharField(max_length=1000,
+    query = forms.CharField(max_length=1000, help_text="Please enter photo title")g
         
     
