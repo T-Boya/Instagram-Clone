@@ -56,6 +56,6 @@ class CommentForm(forms.ModelForm):
         fields = ('comment',)
 
 class SearchForm(forms.ModelForm):
-    query = f
+    query = forms.CharField
         
     
