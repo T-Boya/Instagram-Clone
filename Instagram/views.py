@@ -123,7 +123,7 @@ def deleteImage(request, photo_id):
 @login_required
 def search(request):
     photos = Photo.objects.filter(title__contains=query)
-    return render(request, 'Instagram/search.html'),rffr
+    return render(request, 'Instagram/search.html'),rffrewf
 
 @login_required
 def update(request, photo_id):
