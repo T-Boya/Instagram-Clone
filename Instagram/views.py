@@ -121,9 +121,9 @@ def deleteImage(request, photo_id):
     return redirect('images')
 
 @login_required
-def search(request, id=None):
-    User = get_object_or_404(UserProfile, id=id) #FIGURE OUT HOW TO INSERT SEARCH QUERY AFTER USER
-    return render(request, 'Instagram/search.html', context = {'instance':instance,})
+def search(request):
+    photos = Photo.objects.filter(title__contains=query)
+    return render(request, 'Instagram/search.html')
 
 @login_required
 def update(request, photo_id):
@@ -146,6 +146,8 @@ def user(request, id=None):
     User_Photos = Photo.objects.filter(author_id=id)
     # photos = User_Photos.photo_set.all()
     photos = User_Photos.all()
-    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
+    Photo_comments = Comment.objects.filter(author_id=id).filter(photo_id=photo.id)
+    comments = Photo_comments.all()
+    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'comments' : comments,})
 
 
