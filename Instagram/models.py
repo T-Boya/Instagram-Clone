@@ -18,6 +18,8 @@ class UserProfile(models.Model):
     # def photos(self):
     #     return self.objects.get(self).photo_set.all()
 
+class Category(models.Model):
+    title = models.CharField(max_length = 128)
 
 class Comment(models.Model):
     text = models.CharField(max_length=1000, blank=True, default='nice!')
@@ -31,6 +33,7 @@ class Photo(models.Model):
     likes = models.IntegerField(default=0)
     description = models.CharField(max_length=1000, blank=True)
     comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, blank = True)
 
     def delete_photo(self):
         self.delete()
