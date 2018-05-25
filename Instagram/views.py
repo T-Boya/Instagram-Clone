@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
+try:
+    from django.utils import simplejson as json
+except ImportError:
+    import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -7,6 +11,8 @@ from django.core.urlresolvers import reverse
 from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm, CommentForm
 from Instagram.models import Photo, UserProfile, Comment
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
+
 
 # def index(request):
 #     return render(request, 'Instagram/index.html')
@@ -122,8 +128,20 @@ def deleteImage(request, photo_id):
 
 @login_required
 def search(request):
-    photos = Photo.objects.filter(title__contains=query)
-    return render(request, 'Instagram/search.html')
+    if 'title' in request.GET and request.GET["title"]:
+        query = request.GET.get("title")
+        print(query)
+        photos = Photo.search(query)
+        print(photos)
+        output = f"{query}"
+        print(output)
+
+        return render(request,'Instagram/search.html',{"output":output, "photos":photos})
+
+    else:
+        message = "You haven't searched for anything"
+        return render(request, 'Instagram/search.html',{"message":message})
+    return render(request, 'Instagram/search.html',)
 
 @login_required
 def update(request, photo_id):
@@ -142,12 +160,49 @@ def update(request, photo_id):
 
 @login_required
 def user(request, id=None):
-    User = get_object_or_404(UserProfile, id=id)
-    User_Photos = Photo.objects.filter(author_id=id)
+    user = get_object_or_404(UserProfile, id=id)
+    user_Photos = Photo.objects.filter(author_id=id)
     # photos = User_Photos.photo_set.all()
-    photos = User_Photos.all()
-    Photo_comments = Comment.objects.filter(author_id=id).filter(photo_id=photo.id)
-    comments = Photo_comments.all()
-    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'comments' : comments,})
+    photos = user_Photos.all()
+    # Photo_comments = Comment.objects.filter(author_id=id).filter(photo_id=photo.id)
+    # comments = Photo_comments.all()
 
+    # current_user = request.user
+    # add_follower = current_user.follows.add(user)
+    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
 
+# # @login_required
+# @require_POST
+# def like(request):
+#     if request.method == 'POST':
+#         user = request.user
+#         slug = request.POST.get('slug', None)
+#         company = get_object_or_404(Photo, slug=slug)
+
+#         if photo.likes.filter(id=user.id).exists():
+#             # user has already liked this company
+#             # remove like/user
+#             photo.likes.remove(user)
+#             message = 'You disliked this'
+#         else:
+#             # add a new like for a company
+#             photo.likes.add(user)
+#             message = 'You liked this'
+
+#     ctx = {'likes_count': photo.total_likes, 'message': message}
+#     return HttpResponse(json.dumps(ctx), content_type='application/json')
+
+@login_required
+def like(request, id=None):
+    if request.method == 'GET':
+        photo_id = request.GET['photo_id']
+
+    likes = 0
+    if photo_id:
+        photo = Photo.objects.get(id=int(photo_id))
+        if photo:
+            likes = photo.likes + 1
+            photo.likes =  likes
+            photo.save()
+
+    return HttpResponse(likes)

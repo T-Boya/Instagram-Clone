@@ -23,6 +23,12 @@
               </nav>
               
         <div class = "photos">
+        {% if photos %}
+              {% else %}
+                <h2> Found 0 photos with the given title {{message}}</h2>
+              {% endif %}
+            </div>
+            {% if photos %}
         {% for photo in photos %}
         <div class = "photo">
         <div style="display:flex;justify-content:center;align-items:center;">
@@ -40,6 +46,7 @@
               </div>
         </div>
               {% endfor %}
+              {% endif %}
             </div>
     </body>
 </html>

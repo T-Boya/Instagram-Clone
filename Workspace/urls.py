@@ -22,5 +22,5 @@ from Instagram import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('Instagram.urls'))
+    url(r'^', include('Instagram.urls')),
 ] + staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

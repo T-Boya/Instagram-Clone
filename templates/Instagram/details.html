@@ -1,9 +1,23 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <head>
         <title>grrg</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="{% static "JS/ajax.js" %}"></script>
     </head>
     <body>
+        
+            <span class="like-row">
+                    {% if liked %}
+                      <i class="fas fa-heart" id='like-icon' data-href="{% url 'like' image.id %}"></i>
+                    {% else %}
+                      <i class="far fa-heart" id='like-icon' data-href="{% url 'like' image.id %}"></i>
+                    {% endif %}
+                    <img id='comment-icon' src="{% static 'images/chatt.png' %}" class="img-responsive" alt="Image">
+                  </span>
+
+
         <h1><a href="{% url 'user' photo.author.id %}">{{ photo.title }}</a></h1>
         <h2>{{ photo.author }}</h2>
         <img src="{{ photo.image.url }}">
