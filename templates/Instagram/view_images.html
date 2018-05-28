@@ -8,7 +8,7 @@
                 <div>
                         <div class="containe1r">
                                 <div style="border-bottom: 1px solid rgb(160, 159, 159);">
-                                    <h1 class="header" style="margin-left: 15px;">{{ photo.title }}</h1><a href="{% url 'user' id=photo.author.id %}"><p style="margin-left: 15px;">{{ photo.author }}</p></a>
+                                    <a href="{% url 'details' id=photo.id %}"><h1 class="header" style="margin-left: 15px;">{{ photo.title }}</h1></a><a href="{% url 'user' id=photo.author.id %}"><p style="margin-left: 15px;">{{ photo.author }}</p></a>
                                 </div>
                                 <div style="padding-top: 10px;"></div>
                                     <img src="{{ photo.image.url }}" style="width: 100%; margin-top: -20px;">

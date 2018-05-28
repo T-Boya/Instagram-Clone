@@ -32,7 +32,15 @@
           </nav>
 <div style="right: 10px; position: fixed; list-style-type: none; padding-top: 2vh; text-align: right;">
     <li><a href="{% url 'logout' %}"><h4 style="color:black; margin-top: 10px;">Sign Out</h4></a></li>
+    {% if request.path != "/view/all/" %}
+    <li><a href="{% url 'images' %}"><h5 style="color:black; margin-top: 10px;">Home</h5></a></li>
+    {% endif %}
+    {% if request.path != "/user/request.user.id" %}
+    <li><a href="{% url 'user' id=request.user.id %}"><h5 style="color:black; margin-top: 10px;">Profile</h5></a></li>
+    {% endif %}
+    {% if request.path != "/upload/" %}
     <li><a href="{% url 'upload' %}"><h5 style="color:black; margin-top: 10px;">Upload</h5></a></li>
+    {% endif %}
 </div>
           
         {% endblock %}

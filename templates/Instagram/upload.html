@@ -1,7 +1,8 @@
 {% extends 'Instagram/base.html' %}
 {% load staticfiles %}
 {% block content %}
-        <div>     
+        <h1 style="text-align: center;">Photo Upload</h1>
+        <div style="text-align: center; margin-top: 10vh; width: 30vw; margin: 0 auto; font-size: 20px;">     
             <form id="photo_form" method="post" action="/upload/" enctype="multipart/form-data">
     
                 {% csrf_token %}
@@ -11,11 +12,13 @@
     
                 {% for field in form.visible_fields %}
                     {{ field.errors }}
-                    {{ field.help_text }}
-                    {{ field }}
+                    {{ field.help_text }}<br>
+                    <div style="margin: 0 auto; text-align: center;">
+                    {{ field }}<br>
+                </div>
                 {% endfor %}
     
-                <input type="submit" name="submit" value="Add Photo" />
+                <input type="submit" name="submit" value="Add Photo" style="border: solid 2px black; border-radius: 10px; margin-top: 5px;"/>
             </form>        
             </div>	
 {% endblock %}

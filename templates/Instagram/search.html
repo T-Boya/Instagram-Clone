@@ -1,27 +1,6 @@
-<!DOCTYPE html>
+{% extends 'Instagram/base.html' %}
 {% load staticfiles %}
-<html>
-    <head>
-        <title>Search</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="../../static/CSS/feed.css">
-    </head>
-    <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
-                    <div class="container-fluid">
-                  <div class="navbar-header">
-                        <a class="navbar-brand"><img src=
-                            "../../static/images/navbar.png" 
-                                alt="calligraphy-fonts" border="0"></a>
-                  </div>
-                  <ul class="nav navbar-nav">
-                    <li class="search">
-                        <input class="inputbox" placeholder="Search">
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-              
+{% block content %}
         <div class = "photos">
         {% if photos %}
               {% else %}
@@ -34,19 +13,39 @@
         <div style="display:flex;justify-content:center;align-items:center;">
                 <div>
                         <div class="containe1r">
-                                <a href="{{ photo.get_absolute_url }}"><h1 class="header">{{ photo.title }}</h1><p>{{ photo.author }}</p></a>
-                                <img src="{{ photo.image.url }}" style="width: 100%;">
-                                <div class="underbox"><p>{{ photo.likes }} Likes</p></div>
-                                <input class="comment" placeholder="Add a comment...">
-                                <!-- {% for comment in comments %}
-                                    {{ comment.text }}
-                                {% endfor %} -->
-                            </div>
+                                <div style="border-bottom: 1px solid rgb(160, 159, 159);">
+                                    <a href="{% url 'details' id=photo.id %}"><h1 class="header" style="margin-left: 15px;">{{ photo.title }}</h1></a><a href="{% url 'user' id=photo.author.id %}"><p style="margin-left: 15px;">{{ photo.author }}</p></a>
+                                </div>
+                                <div style="padding-top: 10px;"></div>
+                                    <img src="{{ photo.image.url }}" style="width: 100%; margin-top: -20px;">
+                                    <div class="underbox">
+                                            <div style="float:left">
+                                                {% if like_count > 0 %}
+                                                {% if like_count = 1 %}
+                                                <p style="font-size: 15px;">{{ like_count }} Like</p>
+                                                {% else %}
+                                                <p style="font-size: 15px;">{{ like_count }} Likes</p>
+                                                {% endif %}
+                                                {% else %}
+                                                    <p style="font-size: 15px;">0 Likes</p>
+                                                {% endif %}
+                                            </div>
+                                            <div style="float:left; margin-left: 10px;">
+                                                {% if liked %}
+                                                <img src="http://www.clker.com/cliparts/R/U/Y/u/I/M/thumbs-up-icon-blue-hi.png" style="width: 20px; margin-top: -15px;">
+                                                {% else %}
+                                                <a href = "{%url  'like' photo.id %}"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/15931-200.png" style="width: 20px; margin-top: -15px;"></a>
+                                                {% endif %}
+                                            </div>
+                                            <div style="margin-top: 30px;">
+                                                <h6><span style="font-weight: bold; font-style: italic;">{{ photo.author }}</span> {{ photo.description }}</h6>
+                                            </div>
+                                        </div>
+                                </div>
                 </div>gi
               </div>
         </div>
               {% endfor %}
               {% endif %}
             </div>
-    </body>
-</html>
+{% endblock %}
