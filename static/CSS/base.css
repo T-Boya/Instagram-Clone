@@ -20,7 +20,7 @@ body {
     opacity: 0.7;
 }
 .navbar-brand img {
-    height: 2vh;
+    max-height: 100%;
 }
 ul.nav li.dropdown:hover > ul.dropdown-menu {
     display: block;    
@@ -31,3 +31,6 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
     }
   } 
 /* NAVIGATION BAR */
+.content {
+    padding-top: 50px;
+}

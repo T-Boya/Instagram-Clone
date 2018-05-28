@@ -1,29 +1,59 @@
-<!DOCTYPE html>
+{% extends 'Instagram/base.html' %}
 {% load staticfiles %}
-<html>
-    <head>
-        <title>grrg</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="{% static "JS/ajax.js" %}"></script>
-    </head>
-    <body>
+{% block content %}
+<div class = "photo">
+        <div style="display:flex;justify-content:center;align-items:center;">
+                <div>
+                        <div class="containe1r">
+                            <div style="border-bottom: 1px solid rgb(160, 159, 159);">
+                                <h1 class="header">{{ photo.title }}</h1><a href="{% url 'user' id=photo.author.id %}"><p>{{ photo.author }}</p></a>
+                            </div>
+                            <div style="padding-top: 10px;"></div>
+                                <img src="{{ photo.image.url }}" style="width: 100%;">
+                                <div class="underbox">
+                                    {% if like_count = 1 %}
+                                    <p>{{ like_count }} Like</p>
+                                    {% else %}
+                                    <p>{{ like_count }} Likes</p>
+                                    {% endif %}
+                                </div>
+                                <input class="comment" placeholder="Add a comment...">
+                                {% for comment in comments %}
+                                    <div style="width: 100%; height: 8vh; padding-top: 5px; padding-left: 10px; border: 1px solid gray; border-top: none; background-color: white;">{{ comment.text }}</div>
+                                {% endfor %}
+                            </div>
+                            <!-- <a href = "{%url  'delete' photo.id %}"><p>Delete</p></a>
+                            <a href = "{%url  'update' photo.id %}"><p>Update</p></a> -->
+                </div>
+              </div>
+        </div>
+        {% if liked %}
+        <p>Liked</p>
+        {% else %}
+        <a href = "{%url  'like' photo.id %}"><p>Like</p></a>
+        {% endif %}
         
-            <span class="like-row">
-                    {% if liked %}
-                      <i class="fas fa-heart" id='like-icon' data-href="{% url 'like' image.id %}"></i>
-                    {% else %}
-                      <i class="far fa-heart" id='like-icon' data-href="{% url 'like' image.id %}"></i>
-                    {% endif %}
-                    <img id='comment-icon' src="{% static 'images/chatt.png' %}" class="img-responsive" alt="Image">
-                  </span>
+
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+                {{ form }}
+                <!-- <button type="submit" class="save btn btn-default">Save</button> -->
+                </form>
+
+<!-- 
+            <p>
+                    <strong id="like_count">{{ photo.likes }}</strong> people like this photo
+                            <button id="likes" data-photoid="{{ photo.id }}" class="btn btn-primary" type="button">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                            Like
+                            </button>
+                    </p>
 
 
         <h1><a href="{% url 'user' photo.author.id %}">{{ photo.title }}</a></h1>
         <h2>{{ photo.author }}</h2>
         <img src="{{ photo.image.url }}">
         <p>{{ photo.description }}</p>
-        <p>{{ photo.likes }} Likes</p>
-        <a href = "{%url  'delete' photo.id %}"><p>Delete</p></a>
-        <a href = "{%url  'update' photo.id %}"><p>Update</p></a>
-    </body>
-</html>
+        <p>{{ photo.likes }} Likes</p> -->
+
+{% endblock %}

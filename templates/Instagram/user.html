@@ -15,7 +15,14 @@
                             <div class="containe1r">
                                     <a href="{{ photo.get_absolute_url }}"><h1 class="header">{{ photo.title }}</h1><p>{{ photo.author }}</p></a>
                                     <img src="{{ photo.image.url }}" style="width: 100%;">
-                                    <div class="underbox"><p>{{ photo.likes }} Likes</p></div>
+                                    <div class="underbox">
+                                            {% if follow_count == 1 %}
+                                            <p>{{ follow_count }} Follower</p>
+                                            {% else %}
+                                            <p>{{ follow_count }} Followers</p>
+                                            {% endif %}
+                                            <p>Following {{ follow_count }}</p>
+                                        <p>{{ photo.likes }} Likes</p></div>
                                     <input class="comment" placeholder="Add a comment...">
                                     {% for comment in comments %}
                                         {{ comment.text }}
@@ -26,6 +33,12 @@
             </div>
                   {% endfor %}
                 </div>
+                    {% if following %}
+                    <p>Following</p>
+                    {% else %}
+                    <a href = "{%url  'follow' user.id %}"><p>Follow</p></a>
+                    {% endif %}
+                
 
     </body>
 </html>

@@ -6,18 +6,9 @@ from annoying.fields import AutoOneToOneField
 from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = AutoOneToOneField('auth.user')
     picture = models.ImageField(upload_to='profile_pictures', blank=True)
     bio = models.CharField(max_length = 1000, blank = True)
-    follows = models.ManyToManyField('UserProfile', related_name='followed_by')
-
-    # @classmethod
-    # def follows(id):
-    #     followee = get_object_or_404(UserProfile, id=id)
-    #     add_follower = current_user.follows.add(user)
-    #     request.user.follows.add(followee)
-#         photo = cls.objects.filter(title__icontains=query)
-#         return photo
     
     # instance = UserProfile.objects.get(id)
     # photos = instance.photo_set.all()
@@ -31,9 +22,9 @@ class UserProfile(models.Model):
 # class Category(models.Model):
 #     title = models.CharField(max_length = 128)
 
-class Comment(models.Model):
-    text = models.CharField(max_length=1000, blank=True, default='nice!')
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
+class Follow(models.Model):
+    stalker = models.ForeignKey(User, related_name='stalker')
+    victim = models.ForeignKey(User, related_name='vitctim')
 
 class Photo(models.Model):
     image = models.ImageField(upload_to='uploaded_images', blank=True)
@@ -43,7 +34,6 @@ class Photo(models.Model):
     slug = models.SlugField()
     likes = models.ManyToManyField(User, related_name='likes')
     description = models.CharField(max_length=1000, blank=True)
-    comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
     # category = models.ForeignKey(Category, blank = True)
 
     # @property
@@ -70,3 +60,17 @@ class Photo(models.Model):
     def search(cls, query):
         photo = cls.objects.filter(title__icontains=query)
         return photo
+
+class Comment(models.Model):
+    text = models.CharField(max_length=1000, blank=True, default='nice!')
+    author = models.ForeignKey(User)
+    photo = models.ForeignKey(Photo)
+
+class Follow(models.Model):
+    stalker = models.ForeignKey(User, related_name='stalker')
+    victim = models.ForeignKey(User, related_name='victim')
+
+class Like(models.Model):
+    liker = models.ForeignKey(User, related_name='liker')
+    photo = models.ForeignKey(Photo, related_name='photo')
+    liked = models.BooleanField()

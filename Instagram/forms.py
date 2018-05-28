@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from Instagram.models import UserProfile, Photo, Comment
+from Instagram.models import UserProfile, Photo, Comment, Follow
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -13,7 +13,6 @@ class UserForm(forms.ModelForm):
         widgets = {'username': forms.TextInput(attrs={'placeholder': 'Username', 'class' : 'input'}),
         'password': forms.TextInput(attrs={'placeholder': 'Password', 'class' : 'input'}),
         'email': forms.TextInput(attrs={'placeholder': 'Email', 'class' : 'input',}),
-
         }
 
 class UserProfileForm(forms.ModelForm):
@@ -49,14 +48,19 @@ class DetailUpdateForm(forms.ModelForm):
         exclude = ('profile', 'image', 'title', )
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(max_length=1000, help_text="Please enter your comment")
+    text = forms.CharField(max_length=1000, label='',)
 
     class Meta:
         model = Comment
-        fields = ('comment',)
+        fields = ('text',)
+        exclude = ('author', 'photo',)
+        help_texts = {'text': None,}
+        widgets = {'text': forms.TextInput(attrs={'class' : 'comment'})}
 
 class SearchForm(forms.ModelForm):
     query = forms.CharField(max_length=1000, help_text="Please enter photo title")
     
-        
-    
+class FollowForm(forms.ModelForm):
+    class Meta:
+        model = Follow
+        exclude = ('stalker', 'victim',)

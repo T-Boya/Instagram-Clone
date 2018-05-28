@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm, CommentForm
-from Instagram.models import Photo, UserProfile, Comment
+from Instagram.forms import UserForm, UserProfileForm, PhotoForm, DetailUpdateForm, CommentForm, FollowForm
+from Instagram.models import Photo, UserProfile, Comment, Follow, Like
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 
@@ -116,14 +116,41 @@ def upload(request):
         print(form.errors)
     return render(request, 'Instagram/upload.html', context = {'form':form,})
 
-@login_required
+# @login_required
 def details(request, id = None):
     photo = get_object_or_404(Photo, id=id)
-    return render(request, 'Instagram/details.html', context = {'photo' : photo,})
+    form = CommentForm()
+    all_likes = Like.objects.all()
+    pic_likes = all_likes.filter(photo_id=id)
+    like_count = len(pic_likes)
+    liker = pic_likes.filter(liker_id=request.user.id)
+    if len(liker) != 0:
+        liked=True
+    all_comments = Comment.objects.all().order_by('-id')
+    comments = all_comments.filter(photo_id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.photo = photo
+            comment.save()
+            return redirect('details', id=photo.id)
+    else:
+        form = CommentForm()
+    return render(request, 'Instagram/details.html', context = {'form':form, 'comments':comments, 'photo':photo, 'form':form, 'like_count':like_count, 'liked':liked})
+
 
 def deleteImage(request, photo_id):
     image = Photo.objects.filter(id=photo_id).first()
     image.delete_photo()
+    return redirect('images')
+
+def follow(request, user_id):
+    usermodel = User.objects.get_or_create(id='user_id')
+    request.user.userprofile.follows.add(usermodel.userprofile)
+    # user = usermodel.userprofile.objects.filter(id=user_id).first()
+    # user.follow()
     return redirect('images')
 
 @login_required
@@ -164,12 +191,19 @@ def user(request, id=None):
     user_Photos = Photo.objects.filter(author_id=id)
     # photos = User_Photos.photo_set.all()
     photos = user_Photos.all()
+    all_followers = Follow.objects.all()
+    user_followers = all_followers.filter(victim_id=id)
+    user_following = all_followers.filter(stalker_id=id)
+    follow_count = len(user_followers)
+    user_follow_count = len(user_following)
+    if len(user_following) != 0:
+        following = True
     # Photo_comments = Comment.objects.filter(author_id=id).filter(photo_id=photo.id)
     # comments = Photo_comments.all()
 
     # current_user = request.user
     # add_follower = current_user.follows.add(user)
-    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
+    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following,})
 
 # # @login_required
 # @require_POST
@@ -206,3 +240,24 @@ def like(request, id=None):
             photo.save()
 
     return HttpResponse(likes)
+
+@login_required
+def follow(request, id=None):
+
+    form = FollowForm()
+    user_Photos = Photo.objects.filter(author_id=id)
+    photos = user_Photos.all()
+
+    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
+
+def follow(request, id = None):
+    victim = get_object_or_404(UserProfile, id=id)
+    follow = Follow(victim=victim.user, stalker=request.user)
+    follow.save()
+    return redirect('search')
+
+def like(request, id = None):
+    photo = get_object_or_404(Photo, id=id)
+    like = Like(liker=request.user, photo=photo, liked=True)
+    like.save()
+    return redirect('search')
