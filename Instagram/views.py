@@ -192,6 +192,7 @@ def user(request, id=None):
     user_Photos = Photo.objects.filter(author_id=id)
     # photos = User_Photos.photo_set.all()
     photos = user_Photos.all()
+    if_photos = len(photos)
     following = False
     all_followers = Follow.objects.all()
     user_followers = all_followers.filter(victim_id=id)
@@ -212,7 +213,7 @@ def user(request, id=None):
 
     # current_user = request.user
     # add_follower = current_user.follows.add(user)
-    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following, 'user':user,'like_count':like_count, 'liked':liked,})
+    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following, 'user':user,'like_count':like_count, 'liked':liked, 'if_photos':if_photos})
 
 # # @login_required
 # @require_POST

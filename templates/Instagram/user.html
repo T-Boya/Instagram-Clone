@@ -16,6 +16,9 @@
             <a href = "{%url  'follow' user.id %}"><p>Follow This User</p></a>
             {% endif %}
         <div class = "photos">
+            {% if if_photos == 0 %}
+            <h1>You have no posts</h1>
+            {% endif %}
             {% for photo in photos %}
             <div class = "photo2">
             <div style="display:flex; justify-content:center; align-items:center;">
