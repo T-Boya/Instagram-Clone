@@ -63,11 +63,10 @@ def userlogin(request):
                 return HttpResponse("Your account is disabled.")
 
         else:
-            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
-        return render(request, 'Instagram/login.html', {})
+        return render(request, 'Instagram/login.html')
         # ADD ERROR MESSAGES
 
 @login_required
@@ -128,6 +127,7 @@ def upload(request):
 def details(request, id = None):
     photo = get_object_or_404(Photo, id=id)
     form = CommentForm()
+    liked=False
     all_likes = Like.objects.all()
     pic_likes = all_likes.filter(photo_id=id)
     like_count = len(pic_likes)

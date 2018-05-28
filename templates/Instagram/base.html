@@ -22,15 +22,18 @@
                         "http://www.stickpng.com/assets/images/584abeed2912007028bd9331.png" 
                             alt="camera" border="0" style="width: 30px;"></a>
               </div>
+              {% if user.is_authenticated %}
               <div class="navbar-inner">
                     <ul class="nav nav-center" style="margin-left: 20vw;">
                             <li class="search"><form class="navbar-form" role="search" action="{% url 'search' %}">
                                     <div class="input-group"><input class="inputbox" type="text" placeholder="Search" name="title" style="border: none;"><button class="btn btn-default" type="submit" style="height: 27px; margin-top: -1px; padding-bottom: 5px; border: none;"><i class="glyphicon glyphicon-search"></i></button></form></li>
                         </ul>
             </div>
+            {% endif %}
             </div>
           </nav>
 <div style="right: 10px; position: fixed; list-style-type: none; padding-top: 2vh; text-align: right;">
+    {% if user.is_authenticated %}
     <li><a href="{% url 'logout' %}"><h4 style="color:black; margin-top: 10px;">Sign Out</h4></a></li>
     {% if request.path != "/view/all/" %}
     <li><a href="{% url 'images' %}"><h5 style="color:black; margin-top: 10px;">Home</h5></a></li>
@@ -41,6 +44,15 @@
     {% if request.path != "/upload/" %}
     <li><a href="{% url 'upload' %}"><h5 style="color:black; margin-top: 10px;">Upload</h5></a></li>
     {% endif %}
+    {% else %}
+    {% if request.path == "/login/" %}
+    <li><a href="{% url 'index' %}"><h4 style="color:black; margin-top: 10px;">Register</h4></a></li>
+    {% endif %}
+    {% if request.path == "/" %}
+    <li><a href="{% url 'login' %}"><h4 style="color:black; margin-top: 10px;">Login In</h4></a></li>
+    {% endif %}
+    {% endif %}
+    
 </div>
           
         {% endblock %}

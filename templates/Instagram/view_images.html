@@ -3,7 +3,7 @@
 {% block content %}
         <div class = "photos">
         {% for photo in photos %}
-        <div class = "photo">
+        <div class = "photo" style="margin-bottom: 10vh">
         <div style="display:flex;justify-content:center;align-items:center;">
                 <div>
                         <div class="containe1r">
@@ -24,13 +24,13 @@
                                                     <p style="font-size: 15px;">0 Likes</p>
                                                 {% endif %}
                                             </div>
-                                            <div style="float:left; margin-left: 10px;">
+                                            <!-- <div style="float:left; margin-left: 10px;">
                                                 {% if liked %}
                                                 <img src="http://www.clker.com/cliparts/R/U/Y/u/I/M/thumbs-up-icon-blue-hi.png" style="width: 20px; margin-top: -15px;">
                                                 {% else %}
                                                 <a href = "{%url  'like' photo.id %}"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/15931-200.png" style="width: 20px; margin-top: -15px;"></a>
                                                 {% endif %}
-                                            </div>
+                                            </div> -->
                                             <div style="margin-top: 30px;">
                                                 <h6><span style="font-weight: bold; font-style: italic;">{{ photo.author }}</span> {{ photo.description }}</h6>
                                             </div>
