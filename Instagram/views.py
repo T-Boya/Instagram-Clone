@@ -213,7 +213,7 @@ def user(request, id=None):
 
     # current_user = request.user
     # add_follower = current_user.follows.add(user)
-    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following, 'user':user,'like_count':like_count, 'liked':liked, 'if_photos':if_photos})
+    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'user_follow_count':user_follow_count, 'following':following, 'user':user,'like_count':like_count, 'liked':liked, 'if_photos':if_photos})
 
 # # @login_required
 # @require_POST

@@ -6,7 +6,7 @@
             <p>{{ follow_count }} Follower,
             {% else %}
             <p>{{ follow_count }} Followers, </p>
-            {% endif %} Following {{ follow_count }}</p>
+            {% endif %} Following {{ user_follow_count }}</p>
 
             {% if user.id == request.user.id %}
             <p>Your Profile</p>
