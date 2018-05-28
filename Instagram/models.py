@@ -9,18 +9,9 @@ class UserProfile(models.Model):
     user = AutoOneToOneField('auth.user')
     picture = models.ImageField(upload_to='profile_pictures', blank=True)
     bio = models.CharField(max_length = 1000, blank = True)
-    
-    # instance = UserProfile.objects.get(id)
-    # photos = instance.photo_set.all()
 
     def __str__(self):
         return self.user.username
-
-    # def photos(self):
-    #     return self.objects.get(self).photo_set.all()
-
-# class Category(models.Model):
-#     title = models.CharField(max_length = 128)
 
 class Follow(models.Model):
     stalker = models.ForeignKey(User, related_name='stalker')
@@ -29,16 +20,10 @@ class Follow(models.Model):
 class Photo(models.Model):
     image = models.ImageField(upload_to='uploaded_images', blank=True)
     title = models.CharField(max_length=128)
-    # author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
     slug = models.SlugField()
     likes = models.ManyToManyField(User, related_name='likes')
     description = models.CharField(max_length=1000, blank=True)
-    # category = models.ForeignKey(Category, blank = True)
-
-    # @property
-    # def total_likes(self):
-    #     return self.likes.count()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
