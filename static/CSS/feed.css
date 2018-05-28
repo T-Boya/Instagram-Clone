@@ -17,6 +17,14 @@ body {
     border: 1px solid #E6E6E6;
     background-color: white;
 }
+.containe2r {
+    margin-left: -10px;
+    float: left;
+    width: 20vw;
+    height: 30vh;
+    border: 1px solid #E6E6E6;
+    background-color: white;
+}
 .heading {
     text-align: center;
     color: rgb(192, 190, 190);

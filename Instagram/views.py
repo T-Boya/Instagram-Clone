@@ -82,6 +82,14 @@ def user_logout(request):
 @login_required
 def images(request):
     photos = Photo.objects.all()
+
+    all_likes = Like.objects.all()
+    # for photo in photos:
+    #     pic_likes = all_likes.filter(photo_id=id)
+    #     like_count = len(pic_likes)
+    #     liker = pic_likes.filter(liker_id=request.user.id)
+    #     if len(liker) != 0:
+    #         liked=True
     # comments = Photo.comments.all()
 
     # instance = get_object_or_404(Photo, id=id)
@@ -116,7 +124,7 @@ def upload(request):
         print(form.errors)
     return render(request, 'Instagram/upload.html', context = {'form':form,})
 
-# @login_required
+@login_required
 def details(request, id = None):
     photo = get_object_or_404(Photo, id=id)
     form = CommentForm()
@@ -140,17 +148,10 @@ def details(request, id = None):
         form = CommentForm()
     return render(request, 'Instagram/details.html', context = {'form':form, 'comments':comments, 'photo':photo, 'form':form, 'like_count':like_count, 'liked':liked})
 
-
+@login_required
 def deleteImage(request, photo_id):
     image = Photo.objects.filter(id=photo_id).first()
     image.delete_photo()
-    return redirect('images')
-
-def follow(request, user_id):
-    usermodel = User.objects.get_or_create(id='user_id')
-    request.user.userprofile.follows.add(usermodel.userprofile)
-    # user = usermodel.userprofile.objects.filter(id=user_id).first()
-    # user.follow()
     return redirect('images')
 
 @login_required
@@ -198,12 +199,18 @@ def user(request, id=None):
     user_follow_count = len(user_following)
     if len(user_following) != 0:
         following = True
+    all_likes = Like.objects.all()
+    pic_likes = all_likes.filter(photo_id=id)
+    like_count = len(pic_likes)
+    liker = pic_likes.filter(liker_id=request.user.id)
+    if len(liker) != 0:
+        liked=True
     # Photo_comments = Comment.objects.filter(author_id=id).filter(photo_id=photo.id)
     # comments = Photo_comments.all()
 
     # current_user = request.user
     # add_follower = current_user.follows.add(user)
-    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following,})
+    return render(request, 'Instagram/user.html', context = {'photos' : photos, 'follow_count':follow_count, 'following':following, 'user':user,'like_count':like_count, 'liked':liked,})
 
 # # @login_required
 # @require_POST
@@ -226,38 +233,17 @@ def user(request, id=None):
 #     ctx = {'likes_count': photo.total_likes, 'message': message}
 #     return HttpResponse(json.dumps(ctx), content_type='application/json')
 
-@login_required
-def like(request, id=None):
-    if request.method == 'GET':
-        photo_id = request.GET['photo_id']
-
-    likes = 0
-    if photo_id:
-        photo = Photo.objects.get(id=int(photo_id))
-        if photo:
-            likes = photo.likes + 1
-            photo.likes =  likes
-            photo.save()
-
-    return HttpResponse(likes)
 
 @login_required
-def follow(request, id=None):
-
-    form = FollowForm()
-    user_Photos = Photo.objects.filter(author_id=id)
-    photos = user_Photos.all()
-
-    return render(request, 'Instagram/user.html', context = {'photos' : photos,})
-
 def follow(request, id = None):
     victim = get_object_or_404(UserProfile, id=id)
     follow = Follow(victim=victim.user, stalker=request.user)
     follow.save()
-    return redirect('search')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+@login_required
 def like(request, id = None):
     photo = get_object_or_404(Photo, id=id)
     like = Like(liker=request.user, photo=photo, liked=True)
     like.save()
-    return redirect('search')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

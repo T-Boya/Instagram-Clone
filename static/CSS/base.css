@@ -34,3 +34,6 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
 .content {
     padding-top: 50px;
 }
+input:focus {
+    outline:none !important;
+}

@@ -1,44 +1,49 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>grrrehguib3wrguhijnwg</title>
-    </head>
-    <body>
+{% extends 'Instagram/base.html' %}
+{% load staticfiles %}
+{% block content %}
         <h1><p>{{ user.user.username }}</p></h1>
-        <img src="{{ userprofile.picture.url }}">
+            {% if follow_count == 1 %}
+            <p>{{ follow_count }} Follower,
+            {% else %}
+            <p>{{ follow_count }} Followers, </p>
+            {% endif %} Following {{ follow_count }}</p>
 
+            {% if user.id == request.user.id %}
+            <p>Your Profile</p>
+            {% elif following %}
+            <p>You are Following This User</p>
+            {% else %}
+            <a href = "{%url  'follow' user.id %}"><p>Follow This User</p></a>
+            {% endif %}
         <div class = "photos">
             {% for photo in photos %}
-            <div class = "photo">
-            <div style="display:flex;justify-content:center;align-items:center;">
+            <div class = "photo2">
+            <div style="display:flex; justify-content:center; align-items:center;">
                     <div>
                             <div class="containe1r">
-                                    <a href="{{ photo.get_absolute_url }}"><h1 class="header">{{ photo.title }}</h1><p>{{ photo.author }}</p></a>
+                                    <a href="{{ photo.get_absolute_url }}"><h1 class="header">{{ photo.title }}</h1></a>
                                     <img src="{{ photo.image.url }}" style="width: 100%;">
                                     <div class="underbox">
-                                            {% if follow_count == 1 %}
-                                            <p>{{ follow_count }} Follower</p>
+                                        {% if like_count > 0 %}
+                                            {% if like_count = 1 %}
+                                            <p>{{ like_count }} Like</p>
                                             {% else %}
-                                            <p>{{ follow_count }} Followers</p>
+                                            <p>{{ like_count }} Likes</p>
                                             {% endif %}
-                                            <p>Following {{ follow_count }}</p>
-                                        <p>{{ photo.likes }} Likes</p></div>
-                                    <input class="comment" placeholder="Add a comment...">
-                                    {% for comment in comments %}
-                                        {{ comment.text }}
-                                    {% endfor %}
+                                        {% else %}
+                                        <p>0 Likes</p>
+                                        {% endif %}
+                                        {% if liked %}
+                                        {% else %}
+                                        <a href = "{%url  'like' photo.id %}"><p>Like</p></a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                     </div>
                   </div>
             </div>
                   {% endfor %}
                 </div>
-                    {% if following %}
-                    <p>Following</p>
-                    {% else %}
-                    <a href = "{%url  'follow' user.id %}"><p>Follow</p></a>
-                    {% endif %}
-                
 
-    </body>
-</html>
+                
+{% endblock %}
