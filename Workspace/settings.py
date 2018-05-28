@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Instagram',
     'bootstrap3',
+    'annoying',
 ]
 
 MIDDLEWARE_CLASSES = [
