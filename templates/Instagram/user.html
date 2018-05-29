@@ -10,7 +10,7 @@
 
             {% if user.id == request.user.id %}
             <p>Your Profile</p>
-            {% elif following %}
+            {% elif following == True %}
             <p>You are Following This User</p>
             {% else %}
             <a href = "{%url  'follow' user.id %}"><p>Follow This User</p></a>
