@@ -193,13 +193,13 @@ def user(request, id=None):
     # photos = User_Photos.photo_set.all()
     photos = user_Photos.all()
     if_photos = len(photos)
-    following = False
     all_followers = Follow.objects.all()
     user_followers = all_followers.filter(victim_id=id)
     user_following = all_followers.filter(stalker_id=id)
     follow_count = len(user_followers)
     user_follow_count = len(user_following)
-    if len(user_following) != 0:
+    following = user_followers.filter(stalker_id=request.user.id)
+    if len(following) != 0:
         following = True
     liked = False
     all_likes = Like.objects.all()

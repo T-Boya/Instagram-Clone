@@ -58,4 +58,4 @@ class Follow(models.Model):
 class Like(models.Model):
     liker = models.ForeignKey(User, related_name='liker')
     photo = models.ForeignKey(Photo, related_name='photo')
-    liked = models.BooleanField()
+    liked = models.BooleanField(default=False)
